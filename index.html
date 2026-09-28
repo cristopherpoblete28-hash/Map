@@ -14,12 +14,31 @@
     <div id="map"></div>
     <script src="https://unpkg.com" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script>
+        // 1. Centramos el mapa en el corazón del campus único de la USACH
         const map = L.map('map').setView([-33.4503, -70.6865], 16);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap' }).addTo(map);
         
-        // Pin de prueba en el Planetario
+        // 2. AGREGANDO LOS PINES DEL CAMPUS
+        
+        // Pin 1: Planetario
         const planetario = L.marker([-33.4485, -70.6841]).addTo(map);
-        planetario.bindPopup("<b>Planetario USACH</b><br>¡Punto de inicio de nuestro mapa!");
+        planetario.bindPopup("<b>Planetario USACH</b><br>Entrada principal por Alameda.");
+
+        // Pin 2: Facultad de Ingeniería (FING)
+        const fing = L.marker([-33.4504, -70.6872]).addTo(map);
+        fing.bindPopup("<b>Facultad de Ingeniería (FING)</b><br>Edificio central y departamentos.");
+
+        // Pin 3: Facultad de Administración y Economía (FAE)
+        const fae = L.marker([-33.4491, -70.6853]).addTo(map);
+        fae.bindPopup("<b>Nueva FAE</b><br>Edificio moderno de Administración y Economía.");
+
+        // Pin 4: Escuela de Artes y Oficios (EAO)
+        const eao = L.marker([-33.4508, -70.6848]).addTo(map);
+        eao.bindPopup("<b>Sector EAO</b><br>Patrimonio histórico de la universidad y salas de clases.");
+
+        // Pin 5: Casino Central
+        const casino = L.marker([-33.4496, -70.6885]).addTo(map);
+        casino.bindPopup("<b>Casino Central</b><br>Zona de almuerzos para estudiantes.");
     </script>
 </body>
 </html>
