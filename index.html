@@ -45,7 +45,7 @@
             const bounds = new L.LatLngBounds(southWest, northEast);
 
             // 2. Cargamos la imagen oficial del campus como fondo del mapa
-            L.imageOverlay('https://githubusercontent.com', bounds).addTo(map);
+           L.imageOverlay('plano_usach.png', bounds).addTo(map);
             map.setMaxBounds(bounds);
             map.fitBounds(bounds);
 
