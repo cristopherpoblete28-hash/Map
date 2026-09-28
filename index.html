@@ -3,49 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mapa USACH</title>
+    <title>Mapa Oficial USACH</title>
     
-    <!-- Estilos de Leaflet modificados sin restricciones estrictas -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Librería de mapas -->
+    <link rel="stylesheet" href="https://jsdelivr.net" />
+    <script src="https://jsdelivr.net"></script>
     
     <style>
-        html, body { 
-            margin: 0; 
-            padding: 0; 
-            height: 100%; 
-            width: 100%; 
-            background-color: #e0e0e0; /* Si se rompe el mapa, verás este fondo gris */
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            background-color: #1a1a2e; /* Fondo oscuro elegante */
         }
-        #map { 
-            width: 100%; 
-            height: 100%; 
+        #map {
+            width: 100%;
+            height: 100%;
         }
     </style>
 </head>
 <body>
 
     <div id="map"></div>
-
-    <!-- Script de Leaflet corregido -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     
     <script>
-        // Inicializamos el mapa en la USACH
-        const map = L.map('map').setView([-33.4503, -70.6865], 16);
+        document.addEventListener("DOMContentLoaded", function() {
+            // 1. Configuramos un mapa plano (CRS.Simple) para usar la imagen oficial de la USACH
+            const map = L.map('map', {
+                crs: L.CRS.Simple,
+                minZoom: -2,
+                maxZoom: 2,
+                zoomControl: true
+            });
 
-        // Cargamos una ruta alternativa y más rápida de mapas (CartoDB)
-        L.tileLayer('https://{s}://{z}/{x}/{y}{r}.png', {
-            maxZoom: 19,
-            attribution: '© OpenStreetMap'
-        }).addTo(map);
-        
-        // Marcadores oficiales del Campus
-        L.marker([-33.4485, -70.6841]).addTo(map).bindPopup("<b>Planetario USACH</b>");
-        L.marker([-33.4504, -70.6872]).addTo(map).bindPopup("<b>Facultad de Ingeniería (FING)</b>");
-        L.marker([-33.4491, -70.6853]).addTo(map).bindPopup("<b>Nueva FAE</b>");
-        L.marker([-33.4508, -70.6848]).addTo(map).bindPopup("<b>Sector EAO</b>");
-        L.marker([-33.4496, -70.6885]).addTo(map).bindPopup("<b>Casino Central</b>");
+            // Dimensions de la imagen oficial
+            const w = 1018;
+            const h = 631;
+            const southWest = map.unproject([0, h], map.getMaxZoom()-2);
+            const northEast = map.unproject([w, 0], map.getMaxZoom()-2);
+            const bounds = new L.LatLngBounds(southWest, northEast);
+
+            // 2. Cargamos la imagen oficial del campus como fondo del mapa
+            L.imageOverlay('https://githubusercontent.com', bounds).addTo(map);
+            map.setMaxBounds(bounds);
+            map.fitBounds(bounds);
+
+            // 3. Ubicamos los pines interactivos en las coordenadas exactas de la imagen
+            
+            // Sector FAE / Planetario (Abajo a la derecha)
+            L.marker([-35, 140]).addTo(map).bindPopup("<b>Planetario USACH</b><br>Entrada principal por la Alameda.");
+            L.marker([-33, 148]).addTo(map).bindPopup("<b>Edificio FAE</b><br>Facultad de Administración y Economía.");
+
+            // Sector FING / Escuela de Artes y Oficios (Arriba al centro-derecha)
+            L.marker([-18, 122]).addTo(map).bindPopup("<b>Facultad de Ingeniería (FING)</b><br>Bloques de departamentos y salas.");
+            L.marker([-22, 123]).addTo(map).bindPopup("<b>Sector EAO</b><br>Patrimonio histórico y salas de clase.");
+
+            // Sector Central / Rectoría (Al centro)
+            L.marker([-33, 107]).addTo(map).bindPopup("<b>Casa Central</b><br>Oficinas principales de la universidad.");
+            L.marker([-31, 98]).addTo(map).bindPopup("<b>Casino Central</b><br>Zona de alimentación para estudiantes.");
+
+            // Sector Tecnológico / Estadio (Izquierda)
+            L.marker([-28, 51]).addTo(map).bindPopup("<b>Facultad Tecnológica</b><br>Salas y laboratorios del área tecnológica.");
+            L.marker([-28, 28]).addTo(map).bindPopup("<b>Estadio USACH</b><br>Canchas y gimnasio principal.");
+        });
     </script>
 </body>
 </html>
-
